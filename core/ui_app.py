@@ -10,21 +10,21 @@ from PySide6.QtWidgets import (QCheckBox, QFrame, QHBoxLayout, QLabel,
 from core.constants import DEVELOPER
 
 
-def resource_path(relative_path):
+def get_path(input_path):
     try:
-        base_path = sys._MEIPASS
+        root_path = sys._MEIPASS
     except Exception:
-        base_path = os.path.abspath('.')
-    return os.path.join(base_path, relative_path)
+        root_path = os.path.abspath('.')
+    return os.path.join(root_path, input_path)
 
 
-custom_img = resource_path("icons\\sp_icon.png")
-menu_ing = resource_path("icons\\menu.png")
-upload_img = resource_path("icons\\upload_files.png")
-circle_phone_img = resource_path("icons\\circle-phone-flip.png")
-chalkboard_user_img = resource_path("icons\\chalkboard-user.png")
-save_excel_img = resource_path("icons\\save_to_excel.png")
-broom_img = resource_path("icons\\broom.png")
+custom_img = get_path("icons\\sp_icon.png")
+menu_ing = get_path("icons\\menu.png")
+upload_img = get_path("icons\\upload_files.png")
+circle_phone_img = get_path("icons\\circle-phone-flip.png")
+chalkboard_user_img = get_path("icons\\chalkboard-user.png")
+save_excel_img = get_path("icons\\save_to_excel.png")
+broom_img = get_path("icons\\broom.png")
 
 
 class Ui_MainWindow(object):
