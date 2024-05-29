@@ -1,0 +1,2 @@
+pyside6-rcc <filename>.qrc -o <filename>_rc.py
+pyside6-uic <filename>.ui -o ui_<filename>.py
