@@ -206,6 +206,16 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.include_fullname_checkbox)
 
+        self.include_birthday_checkbox = QCheckBox(self.left_buttonframe)
+        self.include_birthday_checkbox.setObjectName(
+            u"include_birthday"
+        )
+        self.include_birthday_checkbox.setText("Включить ДР в список")
+        self.include_birthday_checkbox.setChecked
+        self.include_birthday_checkbox.setDisabled(True)
+
+        self.verticalLayout_2.addWidget(self.include_birthday_checkbox)
+
         self.label_1 = QLabel(self.left_buttonframe)
         self.label_1.setObjectName(u"label_1")
 

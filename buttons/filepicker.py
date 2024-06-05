@@ -16,6 +16,8 @@ class FilePicker():
         self.main_file = None
         self.main_phone_column = None
         self.main_person_column = None
+        self.main_birth_day = None
+        self.main_birth_month = None
         self.secondary_file = None
         self.secondary_phone_column = None
         self.secondary_person_column = None
@@ -30,12 +32,18 @@ class FilePicker():
     def check_both_files(self):
         if self.main_file is not None and self.secondary_file is None:
             self.main_window.ui.save_button.setDisabled(False)
+            if self.main_birth_day is not None:
+                (self.main_window.ui.
+                    include_birthday_checkbox.setDisabled(False))
             if self.main_person_column is not None:
                 (self.main_window.ui.
                     include_fullname_checkbox.setDisabled(False))
         elif self.main_file is not None and self.secondary_file is not None:
             self.main_window.ui.save_button.setDisabled(False)
             self.main_window.ui.delete_phone_button.setDisabled(False)
+            if self.main_birth_day is not None:
+                (self.main_window.ui.
+                    include_birthday_checkbox.setDisabled(False))
             if self.main_person_column is not None:
                 (self.main_window.ui.
                     include_fullname_checkbox.setDisabled(False))
@@ -48,9 +56,15 @@ class FilePicker():
             (self.main_window.ui.
                 delete_phone_button.setDisabled(True))
             (self.main_window.ui.
+                check_fullname_button.setDisabled(True))
+            (self.main_window.ui.
+                include_fullname_checkbox.setChecked(False))
+            (self.main_window.ui.
                 include_fullname_checkbox.setDisabled(True))
             (self.main_window.ui.
-                check_fullname_button.setDisabled(True))
+                include_birthday_checkbox.setChecked(False))
+            (self.main_window.ui.
+                include_birthday_checkbox.setDisabled(True))
 
     def main_table_upload(self):
         filename = QFileDialog().getOpenFileName(
@@ -92,6 +106,8 @@ class FilePicker():
         self.main_phone_column = None
         self.main_person_column = None
         self.relative_person = None
+        self.main_birth_day = None
+        self.main_birth_month = None
         for column in dataframe.columns.to_list():
             if self.main_phone_column is None:
                 if "телефон" in column.strip().lower():
@@ -102,6 +118,14 @@ class FilePicker():
                 self.main_person_column = column
             if "фио связи" in column.lower():
                 self.relative_person = column
+            if "день" in column.lower():
+                self.main_birth_day = column
+            if "рождения" in column.lower():
+                self.main_birth_month = column
+            if self.main_birth_day is None:
+                if ("дата рождения" in column.lower() 
+                        or "день рождения" in column.lower()):
+                    self.main_birth_day = column
         if (self.main_phone_column is None
                 and self.main_person_column is None):
             MessageDialog(
@@ -290,8 +314,12 @@ class FilePicker():
         cols = phone
         if self.main_window.ui.include_fullname_checkbox.isChecked():
             if self.main_person_column is not None:
-                print(self.main_person_column)
                 cols = [phone, self.main_person_column]
+        if self.main_window.ui.include_birthday_checkbox.isChecked():
+            if self.main_birth_day is not None:
+                cols.append(self.main_birth_day)
+                if self.main_birth_month is not None:
+                    cols.append(self.main_birth_month)
         to_save = self.result[cols]
         if filename[-1].split()[0].lower() == "excel":
             to_save.to_excel(
